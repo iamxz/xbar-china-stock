@@ -1,4 +1,4 @@
-#!/usr/bin/env /Users/mac/.pyenv/shims/python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 # <xbar.title>股票提示</xbar.title>
