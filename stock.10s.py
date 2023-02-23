@@ -7,6 +7,7 @@
 # <xbar.author.github>iamxz</xbar.author.github>
 # <xbar.desc>沪深股票提醒.</xbar.desc>
 # <xbar.dependencies>xbar-china-stock</xbar.dependencies>
+# <xbar.image>https://github.com/iamxz/xbar-china-stock/blob/main/preview.png</xbar.image>
 # <xbar.abouturl>https://github.com/iamxz/xbar-china-stock</xbar.abouturl>
 
 import easyquotation
