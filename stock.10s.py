@@ -21,9 +21,9 @@ def show(type,num):
     open = data[num]['open']
     if open:
         p = (now-open)*100 / open
-        if a > b:
+        if now > open:
             print('%.3f ↑ %.2f%%| color=red'  % (now,p))
-        elif a < b:
+        elif now < open:
             print('%.3f ↓ %.2f%%| color=green' % (now,p))
         else:
             print('%.3f '% (now))
