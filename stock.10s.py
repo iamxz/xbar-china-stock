@@ -15,19 +15,21 @@ import easyquotation
 quotation = easyquotation.use('qq') # 新浪 ['sina'] 腾讯 ['tencent', 'qq']
 
 def show(type,num):
-    abc = quotation.real(type+ num)
+    data = quotation.real(type+ num)
     
-    a = abc[num]['now']
-    b = abc[num]['open']
-    c = (a-b)*100 / b
-    if a > b:
-        print('%.3f ↑ %.2f%%| color=red'  % (a,c))
-    elif a < b:
-        print('%.3f ↓ %.2f%%| color=green' % (a,c))
+    now = data[num]['now']
+    open = data[num]['open']
+    if open:
+        p = (now-open)*100 / open
+        if a > b:
+            print('%.3f ↑ %.2f%%| color=red'  % (now,p))
+        elif a < b:
+            print('%.3f ↓ %.2f%%| color=green' % (now,p))
+        else:
+            print('%.3f '% (now))
     else:
-        print('%.3f ↑'% (a))
+        print('%.3f '% (now))
+    
 
 # 上证 恒生互联
 show('sh','513330')
-# show('sz','000625')
-
