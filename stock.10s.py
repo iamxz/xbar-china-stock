@@ -18,12 +18,13 @@ def show(type,num):
     data = quotation.real(type+ num)
     
     now = data[num]['now']
-    open = data[num]['open']
-    if open:
-        p = (now-open)*100 / open
-        if now > open:
+    close = data[num]['close']
+
+    if close:
+        p = (now-close)*100 / close
+        if now > close:
             print('%.3f ↑ %.2f%%| color=red'  % (now,p))
-        elif now < open:
+        elif now < close:
             print('%.3f ↓ %.2f%%| color=green' % (now,p))
         else:
             print('%.3f '% (now))
