@@ -10,22 +10,17 @@
 * <xbar.abouturl>https://github.com/iamxz/xbar-china-stock</xbar.abouturl>
 */
 
-const http = require('http'); // 引入 Node.js 的 https 模块
+const https = require('https'); // 引入 Node.js 的 https 模块
 const iconv = require('iconv-lite'); // 引入 iconv-lite 模块
 
 class Tencent {
-    constructor() {
-        this.grepStockCode = /(?<=_)\w+/;
-        this.maxNum = 60;
-    }
-
     stockApi(stockCode) {
-        return "http://qt.gtimg.cn/q="+ stockCode;
+        return "https://qt.gtimg.cn/q="+ stockCode;
     }
 
     fetchStockData(stockCode) {
         return new Promise((resolve, reject) => {
-            http.get(this.stockApi(stockCode), (response) => {
+            https.get(this.stockApi(stockCode), (response) => {
                 const data = []; // 使用数组来存储数据块
 
                 // 监听数据块
@@ -123,30 +118,33 @@ class Tencent {
 var qq = new Tencent()
 
    
-
-function show(code) {
+async function show(code) {
     // 假设 quotation.real 方法已经在其他地方定义，返回股票数据
-    qq.fetchStockData(code).then(data =>{
-        
-        const now = data.now;
-        const close = data.close;
-    
-        if (close) {
-            const p = ((now - close) * 100) / close;
-            if (now > close) {
-                console.log(`${now.toFixed(3)} ↑ ${p.toFixed(2)}%| color=red`);
-            } else if (now < close) {
-                console.log(`${now.toFixed(3)} ↓ ${p.toFixed(2)}%| color=green`);
-            } else {
-                console.log(`${now.toFixed(3)} `);
-            }
+    const data = await  qq.fetchStockData(code)
+    const now = data.now;
+    const close = data.close;
+
+    if (close) {
+        const p = ((now - close) * 100) / close;
+        if (now > close) {
+            console.log(`${now.toFixed(3)} ↑ ${p.toFixed(2)}%| color=red`);
+        } else if (now < close) {
+            console.log(`${now.toFixed(3)} ↓ ${p.toFixed(2)}%| color=green`);
         } else {
             console.log(`${now.toFixed(3)} `);
         }
-    })
+    } else {
+        console.log(`${now.toFixed(3)} `);
+    }
 
 }
 
 // 示例调用: 上证 恒生互联
-show('sh513330');
+
+(async (params) => {
+    await show('sh513330');
+    console.log('---')
+    await show('sz002385');
+})();
+
 
