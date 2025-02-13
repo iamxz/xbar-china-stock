@@ -11,13 +11,11 @@
 */
 
 const https = require('https'); // 引入 Node.js 的 https 模块
-const iconv = require('iconv-lite'); // 引入 iconv-lite 模块
 
 class Tencent {
     stockApi(stockCode) {
         return "https://qt.gtimg.cn/q="+ stockCode;
     }
-
     fetchStockData(stockCode) {
         return new Promise((resolve, reject) => {
             https.get(this.stockApi(stockCode), (response) => {
@@ -33,9 +31,8 @@ class Tencent {
                     try {
                         // 使用 iconv-lite 转码 GBK
                         const buffer = Buffer.concat(data); // 合并数组中的所有数据块
-                        const decodedData = iconv.decode(buffer, 'gbk'); // 转码为 UTF-8
+                        const decodedData =  buffer.toString()
                         const res = this.formatResponseData(decodedData)
-                    
                         resolve(res); // 返回获取到的文本数据
                     } catch (error) {
                         reject(error);
@@ -52,7 +49,6 @@ class Tencent {
     formatResponseData(stocksDetail) {
         const stock = this.extractContentFromQuotesAndSplit(stocksDetail);
         const stockDict = {
-            name: stock[1],
             code: stock[2],
             now: parseFloat(stock[3]),
             close: parseFloat(stock[4]),
