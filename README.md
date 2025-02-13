@@ -10,7 +10,4 @@ mac 状态栏 提示脚本
 
 方法二：用软连接 
 
-`
-ln -s  /下载目录/stock.10s.js /Users/用户路径/Library/Application Support/xbar/plugins/stock.10s.js
-
-`
+`ln -s  /下载目录/stock.10s.js /Users/用户路径/Library/Application Support/xbar/plugins/stock.10s.js`
