@@ -13,9 +13,11 @@
 const https = require('https'); // 引入 Node.js 的 https 模块
 
 class Tencent {
+
     stockApi(stockCode) {
         return "https://qt.gtimg.cn/q="+ stockCode;
     }
+
     fetchStockData(stockCode) {
         return new Promise((resolve, reject) => {
             https.get(this.stockApi(stockCode), (response) => {
@@ -42,9 +44,11 @@ class Tencent {
             });
         });
     }
+
     extractContentFromQuotesAndSplit(text) {
         return text.split('~').map(item => item.trim()); // 去除空格
     }
+
     formatResponseData(stocksDetail) {
         const stock = this.extractContentFromQuotesAndSplit(stocksDetail);
         const stockDict = {
@@ -107,39 +111,36 @@ class Tencent {
         const num = parseFloat(value);
         return isNaN(num) ? null : num;
     }
-}
 
-
-var qq = new Tencent()
-
-   
-async function show(code) {
-    // 假设 quotation.real 方法已经在其他地方定义，返回股票数据
-    const data = await  qq.fetchStockData(code)
-    const now = data.now;
-    const close = data.close;
-
-    if (close) {
-        const p = ((now - close) * 100) / close;
-        if (now > close) {
-            console.log(`${now.toFixed(3)} ↑ ${p.toFixed(2)}%| color=red`);
-        } else if (now < close) {
-            console.log(`${now.toFixed(3)} ↓ ${p.toFixed(2)}%| color=green`);
+    async show(code) {
+        // 假设 quotation.real 方法已经在其他地方定义，返回股票数据
+        const data = await this.fetchStockData(code)
+        const now = data.now;
+        const close = data.close;
+    
+        if (close) {
+            const p = ((now - close) * 100) / close;
+            if (now > close) {
+                console.log(`${now.toFixed(3)} ↑ ${p.toFixed(2)}%| color=red`);
+            } else if (now < close) {
+                console.log(`${now.toFixed(3)} ↓ ${p.toFixed(2)}%| color=green`);
+            } else {
+                console.log(`${now.toFixed(3)} `);
+            }
         } else {
             console.log(`${now.toFixed(3)} `);
         }
-    } else {
-        console.log(`${now.toFixed(3)} `);
     }
-
 }
 
-// 示例调用: 上证 恒生互联
 
-(async (params) => {
-    await show('sh513330');
+const qq = new Tencent();
+
+//上证 恒生互联
+;(async () => {
+    await qq.show('sz002385');
     console.log('---')
-    await show('sz002385');
+    await qq.show('sh513330')
 })();
 
 
