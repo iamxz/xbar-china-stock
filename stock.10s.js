@@ -29,7 +29,6 @@ class Tencent {
                 // 监听请求结束
                 response.on('end', () => {
                     try {
-                        // 使用 iconv-lite 转码 GBK
                         const buffer = Buffer.concat(data); // 合并数组中的所有数据块
                         const decodedData =  buffer.toString()
                         const res = this.formatResponseData(decodedData)
